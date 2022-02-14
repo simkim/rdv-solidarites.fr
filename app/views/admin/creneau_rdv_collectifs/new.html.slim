@@ -1,0 +1,11 @@
+- content_for(:menu_item) { "menu-creneau_rdv_collectifs" }
+- content_for(:menu_agent_select_path_helper_name) { "admin_organisation_creneau_rdv_collectifs_path" }
+
+- content_for :title do
+  = "RDV Collectifs"
+
+.row.justify-content-center
+  .col-md-6
+    .card
+      .card-body
+        = render "form", creneau_rdv_collectif: @creneau_rdv_collectif

@@ -3,6 +3,7 @@ class RdvCollectifs < ActiveRecord::Migration[6.1]
     create_table :creneau_rdv_collectifs do |t|
       t.belongs_to :motif
       t.belongs_to :lieu
+      t.integer :max_number_of_participants, null: false
 
       t.date "first_day", null: false
       t.time "start_time", null: false

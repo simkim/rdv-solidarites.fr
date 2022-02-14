@@ -1,0 +1,10 @@
+tr
+  td
+    | Du #{l(creneau_rdv_collectifs.starts_at, format: :human)} au #{l(creneau_rdv_collectifs.first_occurrence_ends_at, format: :human)}
+
+    - if creneau_rdv_collectifs.recurrence.present?
+      br
+      | Se répète :
+      br
+      = sanitize(display_recurrence(creneau_rdv_collectifs).join("<br/>"))
+

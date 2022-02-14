@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 2022_02_14_160550) do
   create_table "creneau_rdv_collectifs", force: :cascade do |t|
     t.bigint "motif_id"
     t.bigint "lieu_id"
+    t.integer "max_number_of_participants", null: false
     t.date "first_day", null: false
     t.time "start_time", null: false
     t.text "recurrence"

@@ -1,0 +1,21 @@
+- content_for(:menu_item) { "menu-creneau_rdv_collectifs" }
+- content_for(:menu_agent_select_path_helper_name) { "admin_organisation_creneau_rdv_collectifs_path" }
+
+- content_for :title do
+  = "RDV Collectifs"
+
+.card.pb-3
+  table.table
+    thead
+      tr
+        th Description
+        th Dates
+        th Actions
+    tbody
+      = render @creneau_rdv_collectifs
+  .d-flex.justify-content-center
+    = paginate @creneau_rdv_collectifs, theme: "twitter-bootstrap-4"
+
+  .text-center.py-2
+    = link_to new_admin_organisation_creneau_rdv_collectif_path(current_organisation), class: "btn btn-primary" do
+      = "Ouvrir un nouveau créneau de RDV collectif"

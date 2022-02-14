@@ -188,6 +188,7 @@ Rails.application.routes.draw do
             end
           end
         end
+        resources :creneau_rdv_collectifs, except: [:destroy]
         resources :invitations, only: [:index] do
           post :reinvite, on: :member
         end

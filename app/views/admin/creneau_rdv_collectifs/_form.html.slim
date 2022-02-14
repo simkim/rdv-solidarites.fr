@@ -1,0 +1,11 @@
+= simple_form_for [:admin, current_organisation, creneau_rdv_collectif] do |f|
+  = render "model_errors", model: creneau_rdv_collectif
+
+  = f.association :lieu, collection: policy_scope(Lieu).enabled.ordered_by_name, label_method: :full_name, include_blank: false
+  = f.association :motif, collection: current_organisation.motifs.where(location_type: 3), label_method: -> { motif_name_with_location_type_and_badges(_1) }, as: :check_boxes
+  hr
+  = render partial: "common/recurrence", locals: { f: f, model: creneau_rdv_collectif }
+
+  .row
+    .col.text-right
+      = f.button :submit
