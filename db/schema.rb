@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_08_221144) do
+ActiveRecord::Schema.define(version: 2022_02_14_160550) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -203,6 +203,28 @@ ActiveRecord::Schema.define(version: 2022_02_08_221144) do
     t.index ["user_id"], name: "index_agents_users_on_user_id"
   end
 
+  create_table "creneau_rdv_collectifs", force: :cascade do |t|
+    t.bigint "motif_id"
+    t.bigint "lieu_id"
+    t.date "first_day", null: false
+    t.time "start_time", null: false
+    t.text "recurrence"
+    t.datetime "recurrence_ends_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["lieu_id"], name: "index_creneau_rdv_collectifs_on_lieu_id"
+    t.index ["motif_id"], name: "index_creneau_rdv_collectifs_on_motif_id"
+  end
+
+  create_table "creneau_rdv_collectifs_agents", force: :cascade do |t|
+    t.bigint "creneau_rdv_collectif_id"
+    t.bigint "agent_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["agent_id"], name: "index_creneau_rdv_collectifs_agents_on_agent_id"
+    t.index ["creneau_rdv_collectif_id"], name: "index_creneau_rdv_collectifs_agents_on_creneau_rdv_collectif_id"
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -323,6 +345,13 @@ ActiveRecord::Schema.define(version: 2022_02_08_221144) do
     t.index ["recurrence"], name: "index_plage_ouvertures_on_recurrence", where: "(recurrence IS NOT NULL)"
   end
 
+  create_table "rdv_collectifs", force: :cascade do |t|
+    t.bigint "creneau_rdv_collectif_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["creneau_rdv_collectif_id"], name: "index_rdv_collectifs_on_creneau_rdv_collectif_id"
+  end
+
   create_table "rdv_events", force: :cascade do |t|
     t.bigint "rdv_id", null: false
     t.string "event_type"
@@ -362,6 +391,7 @@ ActiveRecord::Schema.define(version: 2022_02_08_221144) do
     t.bigint "user_id"
     t.boolean "send_lifecycle_notifications", null: false
     t.boolean "send_reminder_notification", null: false
+    t.string "rdv_type"
     t.index ["rdv_id", "user_id"], name: "index_rdvs_users_on_rdv_id_and_user_id", unique: true
     t.index ["rdv_id"], name: "index_rdvs_users_on_rdv_id"
     t.index ["user_id"], name: "index_rdvs_users_on_user_id"
