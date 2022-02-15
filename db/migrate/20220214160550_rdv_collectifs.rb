@@ -1,9 +1,11 @@
 class RdvCollectifs < ActiveRecord::Migration[6.1]
   def change
-    create_table :creneau_rdv_collectifs do |t|
+    add_column :rdvs, :max_number_of_participants
+
+    # itération possible
+    create_table :ateliers do |t| # dans un deuxième temps
       t.belongs_to :motif
       t.belongs_to :lieu
-      t.integer :max_number_of_participants, null: false
 
       t.date "first_day", null: false
       t.time "start_time", null: false
@@ -13,18 +15,11 @@ class RdvCollectifs < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-    create_table :creneau_rdv_collectifs_agents do |t|
-      t.belongs_to :creneau_rdv_collectif
-      t.belongs_to :agent
-      t.timestamps
-    end
+    add_column :rdvs, :atelier_id
 
-    create_table :rdv_collectifs do |t|
-      t.belongs_to :creneau_rdv_collectif
-
-      t.timestamps
-    end
-
-    add_column :rdvs_users, :rdv_type, :string # "Rdv" ou "RdvCollectif"
+    # D'abord ne pas ajouter cette colonne
+    # Ensuite l'utiliser juste pour les rdv collectifs
+    # Ensuite s'en servir pour les rdv classiques
+    # add_column :rdvs_users, :status, :string
   end
 end
