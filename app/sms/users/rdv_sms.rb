@@ -32,7 +32,7 @@ class Users::RdvSms < Users::BaseSms
     I18n.l(rdv.starts_at, format: rdv.home? ? :short_approx : :short)
   end
 
-  def rdv_footer(rdv, user) # rubocop:disable Metrics/PerceivedComplexity
+  def rdv_footer(rdv, user) # rubocop:disable Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
     message = if rdv.phone?
                 "RDV Téléphonique\n"
               elsif rdv.home?
@@ -40,7 +40,7 @@ class Users::RdvSms < Users::BaseSms
               else
                 "#{rdv.address_complete}\n"
               end
-    if user.relatives.present?
+    if user.relatives.present? && !rdv.collective?
       users_full_names = rdv.users.map(&:full_name).sort.to_sentence
       message += " pour #{users_full_names}"
     end

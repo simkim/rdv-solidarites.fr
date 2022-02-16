@@ -60,10 +60,12 @@ fr:
         home: À domicile
         phone: Par téléphone
         public_office: Sur place
+        collective: Collectif
       motif/location_types/hint:
         public_office: Le RDV aura lieu au lieu sélectionné (MDS...)
         phone: L'usager sera notifié que le RDV se passera par téléphone, au numéro indiqué dans son profil
         home: L'usager sera notifié que le RDV aura lieu à l'adresse remplie dans son profil
+        collective: Plusieurs usagers (qui ne se connaissent pas forcément) pourront participer et être notifiés individuellement
     errors:
       models:
         motif:
