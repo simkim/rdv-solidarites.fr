@@ -27,5 +27,8 @@
         class: "js-filtered-motifs" \
       }
 
-    = render "admin/rdv_wizard_steps/actions", rdv_wizard_form: @rdv_wizard, submit_value: "Continuer", f: f
-
+    .row.align-items-center.mt-3
+      .col.text-left
+        = link_to "Revenir en arrière", admin_organisation_rdvs_collectifs_path(current_organisation), class: "btn btn-outline-primary"
+      .col.text-right
+        = f.button :submit, "Continuer"
