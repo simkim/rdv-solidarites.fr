@@ -6,7 +6,7 @@
     span.float-right= l(rdv.starts_at, format: (rdv.home? ? :human_approx : :human))
     .clear
   div.row-result
-    - if rdv.collective?
+    - if rdv.collective? && for_role == :user
       span.title Usager :
       span.float-right= @user.full_name
     - else
