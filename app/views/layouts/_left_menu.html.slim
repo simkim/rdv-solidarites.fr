@@ -84,10 +84,11 @@
           i.fa.fa-list>
           span.ml-1 Liste des RDV
 
-      li.side-nav-item.mb-4.pl-3.pr-2
-        = active_link_to admin_organisation_rdvs_collectifs_path(current_organisation)
-          i.fa.fa-users>
-          span.ml-1 RDV Collectifs
+      - if RdvCollectif.enabled_for?(current_organisation)
+        li.side-nav-item.mb-4.pl-3.pr-2
+          = active_link_to admin_organisation_rdvs_collectifs_path(current_organisation)
+            i.fa.fa-users>
+            span.ml-1 RDV Collectifs
 
       li.side-nav-item.mb-4.pl-3.pr-2
         = active_link_to admin_organisation_stats_path(current_organisation)

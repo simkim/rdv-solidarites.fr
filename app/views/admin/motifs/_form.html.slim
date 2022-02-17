@@ -34,12 +34,13 @@
       p.text-muted.font-14= Motif.human_attribute_name("for_secretariat_hint")
       = f.input :for_secretariat, label: Motif.human_attribute_name("for_secretariat_label")
 
-  .card
-    .card-body
-      h5.card-title= "RDV Collectif"
-      p.text-muted.font-14= "Vous pouvez inviter plusieurs usagers qui seront notifiés individuellement, par exemple si vous organisez un atelier avec une dizaine de participants."
-      p.text-muted.font-14= "Un RDV qui inclus plusieurs membres de la même famille n'a pas besoin d'être un RDV Collectif"
-      = f.input :collectif, label: "Ce motif est pour des RDV Collectifs"
+  - if RdvCollectif.enabled_for?(current_organisation)
+    .card
+      .card-body
+        h5.card-title= "RDV Collectif"
+        p.text-muted.font-14= "Vous pouvez inviter plusieurs usagers qui seront notifiés individuellement, par exemple si vous organisez un atelier avec une dizaine de participants."
+        p.text-muted.font-14= "Un RDV qui inclus plusieurs membres de la même famille n'a pas besoin d'être un RDV Collectif"
+        = f.input :collectif, label: "Ce motif est pour des RDV Collectifs"
 
   .card
     .card-body
