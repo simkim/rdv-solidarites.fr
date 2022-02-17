@@ -34,20 +34,19 @@
       p.text-muted.font-14= Motif.human_attribute_name("for_secretariat_hint")
       = f.input :for_secretariat, label: Motif.human_attribute_name("for_secretariat_label")
 
-  - if RdvCollectif.enabled_for?(current_organisation)
-    .card
-      .card-body
-        h5.card-title= "Nombre de participants"
+  .card
+    .card-body
+      h5.card-title= "Nombre de participants"
 
-        = label_tag do
-          = f.radio_button(:collectif, false)
-          span.ml-1= "RDV individuel"
-          p.text-muted.font-14= "Le RDV est pour une personne en particulier. Des accompagnants peuvent être ajoutés au RDV, comme par exemple les parents de l'enfant pour qui le RDV a lieu."
+      = label_tag do
+        = f.radio_button(:collectif, false)
+        span.ml-1= "RDV individuel"
+        p.text-muted.font-14= "Le RDV est pour une personne en particulier. Des accompagnants peuvent être ajoutés au RDV, comme par exemple les parents de l'enfant pour qui le RDV a lieu."
 
-        = label_tag do
-          = f.radio_button(:collectif, true)
-          span.ml-1= "RDV collectif"
-          p.text-muted.font-14= "Plusieurs personnes assisteront au même RDV, par exemple pour un atelier en groupe. Les participants seront notifiés individuellement."
+      = label_tag do
+        = f.radio_button(:collectif, true)
+        span.ml-1= "RDV collectif"
+        p.text-muted.font-14= "Plusieurs personnes assisteront au même RDV, par exemple pour un atelier en groupe. Les participants seront notifiés individuellement."
 
   .card
     .card-body
