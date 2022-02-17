@@ -37,10 +37,17 @@
   - if RdvCollectif.enabled_for?(current_organisation)
     .card
       .card-body
-        h5.card-title= "RDV Collectif"
-        p.text-muted.font-14= "Vous pouvez inviter plusieurs usagers qui seront notifiés individuellement, par exemple si vous organisez un atelier avec une dizaine de participants."
-        p.text-muted.font-14= "Un RDV qui inclus plusieurs membres de la même famille n'a pas besoin d'être un RDV Collectif."
-        = f.input :collectif, label: "Ce motif est pour des RDV Collectifs"
+        h5.card-title= "Nombre de participants"
+
+        = label_tag do
+          = f.radio_button(:collectif, false)
+          span.ml-1= "RDV individuel"
+          p.text-muted.font-14= "Le RDV est pour une personne en particulier. Des accompagnants peuvent être ajoutés au RDV, comme par exemple les parents de l'enfant pour qui le RDV a lieu."
+
+        = label_tag do
+          = f.radio_button(:collectif, true)
+          span.ml-1= "RDV collectif"
+          p.text-muted.font-14= "Plusieurs personnes assisteront au même RDV, par exemple pour un atelier en groupe. Les participants seront notifiés individuellement."
 
   .card
     .card-body
