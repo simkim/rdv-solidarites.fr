@@ -36,6 +36,13 @@
 
   .card
     .card-body
+      h5.card-title= "RDV Collectif"
+      p.text-muted.font-14= "Vous pouvez inviter plusieurs usagers qui seront notifiés individuellement, par exemple si vous organisez un atelier avec une dizaine de participants."
+      p.text-muted.font-14= "Un RDV qui inclus plusieurs membres de la même famille n'a pas besoin d'être un RDV Collectif"
+      = f.input :collectif, label: "Ce motif est pour des RDV Collectifs"
+
+  .card
+    .card-body
       h5.card-title= Motif.human_attribute_name("reservable_online_title")
       p.text-muted.font-14= Motif.human_attribute_name("reservable_online_hint")
       = f.input :reservable_online

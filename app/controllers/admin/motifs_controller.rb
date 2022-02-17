@@ -4,7 +4,7 @@ class Admin::MotifsController < AgentAuthController
   respond_to :html, :json
 
   before_action :set_organisation, only: %i[new create]
-  before_action :set_available_services, only: %i[new edit]
+  before_action :set_available_services, only: %i[new edit update]
   before_action :set_motif, only: %i[show edit update destroy]
 
   def index
@@ -99,6 +99,7 @@ class Admin::MotifsController < AgentAuthController
               :custom_cancel_warning_message,
               :for_secretariat,
               :follow_up,
+              :collectif,
               :sectorisation_level)
   end
 
