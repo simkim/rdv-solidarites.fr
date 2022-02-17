@@ -4,13 +4,20 @@
 - content_for(:menu_item) { "menu-rdvs-collectifs-list" }
 
 - content_for :breadcrumb do
-  .btn-group
-    = link_to "Programmer un nouveau RDV Collectif", new_admin_organisation_rdvs_collectif_path(current_organisation), class: "btn btn-outline-primary"
+  - if @has_at_least_one_motif_collectif
+    .btn-group
+      = link_to "Programmer un nouveau RDV Collectif", new_admin_organisation_rdvs_collectif_path(current_organisation), class: "btn btn-primary"
 
 .row.justify-content-center.pb-3
-  div class="col-md-6"
-    /TODO: Afficher un cta pour créer un motif s'il n'y a pas de motif de rdv collectif
-    - if @rdvs.any?
+  div class="col-md-10"
+    - if !@has_at_least_one_motif_collectif
+      .card
+        .card-body
+          p = "Les RDV collectifs permettent d'inviter plusieurs usagers à un même RDV et à les notifier individuellement."
+          p = "Pour commencer à organiser des RDV collectifs, vous devez d'abord créer un motif"
+          = link_to "Créer un motif de RDV collectif", new_admin_organisation_motif_path(current_organisation, collectif: true), class:"btn btn-primary"
+
+    - elsif @rdvs.any?
       .d-flex.justify-content-center= paginate @rdvs, theme: "twitter-bootstrap-4"
       = render(partial: "admin/rdvs/rdv",
               collection: @rdvs.includes(:organisation, :users, :lieu, :motif, agents: :service),

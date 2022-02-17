@@ -19,7 +19,7 @@ class Admin::MotifsController < AgentAuthController
   end
 
   def new
-    @motif = Motif.new(organisation_id: current_organisation.id)
+    @motif = Motif.new(organisation_id: current_organisation.id, collectif: params[:collectif])
     authorize(@motif)
   end
 
