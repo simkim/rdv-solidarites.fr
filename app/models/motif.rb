@@ -163,7 +163,7 @@ class Motif < ApplicationRecord
   def not_reservable_online_if_collectif
     return unless collectif? && reservable_online
 
-    errors.add(:base, "Les motifs de RDV collectifs ne peuvent pas être réservables en ligne pour le moment.")
+    errors.add(:base, "La réservation en ligne n'est pas encore possible pour les RDV collectifs.")
   end
 
   def not_at_home_if_collectif
