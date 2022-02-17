@@ -56,6 +56,8 @@ class Motif < ApplicationRecord
   validate :booking_delay_validation
   validate :not_associated_with_secretariat
   validates :color, css_hex_color: true
+  validate :not_reservable_online_if_collectif
+  validate :not_at_home_if_collectif
 
   # Scopes
   scope :active, lambda { |active = true|
@@ -156,5 +158,17 @@ class Motif < ApplicationRecord
     return if service_id.nil?
 
     errors.add(:service_id, "ne peut être le secrétariat") if service.secretariat?
+  end
+
+  def not_reservable_online_if_collectif
+    return if !collective? || !reservable_online
+
+    errors.add(:base, "Les motifs de RDV collectifs ne peuvent pas être réservables en ligne pour le moment.")
+  end
+
+  def not_at_home_if_collectif
+    return unless collectif? && home?
+
+    errors.add(:location_type, "Les RDV collecifs ne peuvent pas avoir lieu à domicile")
   end
 end

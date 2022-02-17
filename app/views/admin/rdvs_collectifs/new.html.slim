@@ -1,7 +1,6 @@
-- content_for(:menu_item) { "menu-agendas" }
-- content_for(:title) { t(".page_title", starts_at: l(@rdv.starts_at, format: :dense)) }
+- content_for(:title) { "Nouveau RDV Collectif" }
 
-= render "admin/rdv_wizard_steps/card", rdv_wizard_form: @rdv_wizard, next_steps: [{step: 2}, {step: 3}, {step: 4}], step_title: t(".step_title") do
+= render "admin/rdv_wizard_steps/card", rdv_wizard_form: @rdv_wizard, next_steps: [{step: 2}, {step: 3}, {step: 4}], step_title: t("admin.rdv_wizard_steps.step1.step_title") do
   = simple_form_for(@rdv_wizard, as: :rdv, url: admin_organisation_rdv_wizard_step_path(current_organisation), method: :get) do |f|
     = render "model_errors", model: @rdv_wizard
     = render "admin/rdv_wizard_steps/hidden_fields", f: f, step: 1, \
@@ -28,4 +27,9 @@
         class: "js-filtered-motifs" \
       }
 
-    = render "admin/rdv_wizard_steps/actions", rdv_wizard_form: @rdv_wizard, submit_value: "Continuer", f: f
+    .row.align-items-center.mt-3
+      .col.text-left
+        = link_to "Revenir en arrière", admin_organisation_rdvs_collectifs_path(current_organisation), class: "btn btn-outline-primary"
+      .col.text-right
+        = f.button :submit, "Continuer"
+
