@@ -12,7 +12,7 @@ module RdvUpdater
         rdv_params[:cancelled_at] = rdv_params[:status].in?(%w[excused revoked noshow]) ? Time.zone.now : nil
       end
 
-      previous_participant_ids = rdv.user_ids
+      previous_participant_ids = rdv.rdvs_users.where(send_lifecycle_notifications: true).pluck(:user_id)
       result = rdv.update(rdv_params)
 
       # Send relevant notifications (cancellation and date update)

@@ -16,46 +16,38 @@ class Notifiers::RdvCollectifParticipations < ::BaseService
   private
 
   def notify_users_by_mail
-    new_participants_to_notify.select(&:notifiable_by_email?).each do |user|
+    new_participants.select(&:notifiable_by_email?).each do |user|
       Users::RdvMailer.rdv_created(@rdv.payload(:create, user), user).deliver_later
       @rdv.events.create!(event_type: RdvEvent::TYPE_NOTIFICATION_MAIL, event_name: :created)
     end
 
-    deleted_participants_to_notify.select(&:notifiable_by_email?).each do |user|
+    deleted_participants.select(&:notifiable_by_email?).each do |user|
       Users::RdvMailer.rdv_cancelled(@rdv.payload(:destroy, user), user).deliver_later
       @rdv.events.create!(event_type: RdvEvent::TYPE_NOTIFICATION_MAIL, event_name: :cancelled_by_agent)
     end
   end
 
   def notify_users_by_sms
-    new_participants_to_notify.select(&:notifiable_by_sms?).each do |user|
+    new_participants.select(&:notifiable_by_sms?).each do |user|
       Users::RdvSms.rdv_created(@rdv, user).deliver_later
       @rdv.events.create!(event_type: RdvEvent::TYPE_NOTIFICATION_SMS, event_name: :created)
     end
 
-    deleted_participants_to_notify.select(&:notifiable_by_sms?).each do |user|
+    deleted_participants.select(&:notifiable_by_sms?).each do |user|
       Users::RdvSms.rdv_cancelled(@rdv, user).deliver_later
       @rdv.events.create!(event_type: RdvEvent::TYPE_NOTIFICATION_SMS, event_name: :cancelled_by_agent)
     end
   end
 
-  def new_participants_to_notify
-    new_participants.select(send_lifecycle_notifications: true)
-  end
-
-  def deleted_participants_to_notify
-    deleted_participants.select(send_lifecycle_notifications: true)
-  end
-
   def new_participants
-    @new_participants ||= @rdv.user_ids - previous_participant_ids
+    @new_participants ||= User.where(id: (@rdv.user_ids - @previous_participant_ids))
   end
 
   def deleted_participants
-    @deleted_participants ||= previous_participant_ids - @rdv.user_ids
+    @deleted_participants ||= User.where(id: (@previous_participant_ids - current_participant_ids))
   end
 
-  def rdvs_users_to_notify
-    @rdv.rdvs_users.where(send_lifecycle_notifications: true)
+  def current_participant_ids
+    @rdv.rdvs_users.where(send_lifecycle_notifications: true).pluck(:user_id)
   end
 end
