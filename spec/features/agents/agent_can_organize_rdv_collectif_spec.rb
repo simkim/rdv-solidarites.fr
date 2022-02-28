@@ -18,7 +18,8 @@ describe "Agent can organize a rdv collectif", js: true do
     login_as(agent, scope: :agent)
 
     # Creating a new RDV Collectif
-    visit admin_organisation_rdvs_collectifs_path(organisation)
+    visit authenticated_agent_root_path
+    click_link "RDV Collectifs"
     expect(page).to have_content("Aucun RDV")
 
     click_link "Nouveau RDV Collectif"
@@ -29,7 +30,8 @@ describe "Agent can organize a rdv collectif", js: true do
 
     fill_in "Commence à", with: "17/3/2022 14:00"
     fill_in "Durée en minutes", with: "30"
-    fill_in "Contexte", with: "Traitement de texte"
+    fill_in "Nombre de places", with: 2
+    fill_in "Intitulé", with: "Traitement de texte"
 
     select("DIALO Alain", from: "rdv_agent_ids")
     select(lieu.name, from: "Lieu")
@@ -38,5 +40,40 @@ describe "Agent can organize a rdv collectif", js: true do
     expect(page).to have_content("Atelier participatif créé")
 
     expect(page).to have_content("Jeudi 17 mars à 14:00")
+    expect(page).to have_content("2 places disponibles")
+
+    click_link("Ajouter un participant")
+    add_user(user1)
+    click_button "Enregistrer"
+
+    expect(page).to have_content("1 places disponibles")
+
+    click_link("Ajouter un participant")
+    add_user(user2)
+    click_button "Enregistrer"
+
+    expect(page).to have_content("Complet")
+
+    click_link "Atelier participatif : Traitement de texte"
+
+    add_user(user3)
+    click_button "Enregistrer"
+
+    expect(page).to have_content("Trop de participants (3 personnes pour 2 places)")
+    click_link "Trop de participants (3 personnes pour 2 places)"
+
+    fill_in "Nombre de places", with: ""
+    click_button "Enregistrer"
+
+    expect(page).to have_content("Ajouter un participant")
+    expect(page).to have_content("Pas de limite de places")
+    expect(page).to have_content("3 participants")
+
+    click_link "Atelier participatif : Traitement de texte"
+
+    accept_confirm do
+      click_link "Supprimer ce RDV"
+    end
+    expect(page).to have_content("Le rendez-vous a été supprimé.")
   end
 end

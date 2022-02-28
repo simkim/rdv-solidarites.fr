@@ -45,6 +45,7 @@ class Rdv < ApplicationRecord
   validates :lieu, presence: true, if: :public_office?
   validate :starts_at_is_plausible
   validate :duration_is_plausible
+  validates :max_participants_count, numericality: { greater_than: 0, allow_nil: true }
 
   # Hooks
   after_save :associate_users_with_organisation
@@ -206,6 +207,24 @@ class Rdv < ApplicationRecord
 
   def participants_with_life_cycle_notification_ids
     rdvs_users.where(send_lifecycle_notifications: true).pluck(:user_id)
+  end
+
+  def remaining_seats?
+    return true unless max_participants_count
+
+    rdv_collectif_users_count < max_participants_count
+  end
+
+  def fully_booked?
+    return false unless max_participants_count
+
+    rdv_collectif_users_count == max_participants_count
+  end
+
+  def overbooked?
+    return false unless max_participants_count
+
+    rdv_collectif_users_count > max_participants_count
   end
 
   private

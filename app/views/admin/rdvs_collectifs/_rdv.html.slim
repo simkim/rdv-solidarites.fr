@@ -1,15 +1,40 @@
 .card
   .card-header
-    = link_to admin_organisation_rdv_path(rdv.organisation, rdv) do
+    = link_to edit_admin_organisation_rdvs_collectif_path(rdv.organisation, rdv) do
       h5= rdv_title_for_agent(rdv)
     = I18n.l(rdv.starts_at, format: "%A %d %B à %H:%M").capitalize
   .card-body
     .row
       .col-md-6
+        - if rdv.remaining_seats?
+          = link_to edit_users_admin_organisation_rdvs_collectif_path(rdv.organisation, rdv), class: "d-flex card-text mb-2" do
+            div.mr-1
+              i.fa.fa-fw.fa-user-plus>
+            div
+              = "Ajouter un participant"
+
+        .d-flex.card-text.mb-2
+          - if rdv.remaining_seats?
+              div.mr-3
+              div
+                - if rdv.max_participants_count
+                  = "#{rdv.max_participants_count - rdv.rdv_collectif_users_count} places disponibles"
+                - else
+                  = "Pas de limite de places"
+          - elsif rdv.fully_booked?
+              div.mr-1
+                i.fa.fa-fw.fa-user-check>
+                = "Complet"
+          - elsif rdv.overbooked?
+            div.mr-1
+              i.fa.fa-fw.fa-user-times>
+              = link_to edit_admin_organisation_rdvs_collectif_path(rdv.organisation, rdv) do
+                = "Trop de participants (#{rdv.rdv_collectif_users_count} personnes pour #{rdv.max_participants_count} places)"
+
         .d-flex.card-text.mb-3
           div.mr-1
             i.fa.fa-fw.fa-users>
-            = "#{rdv.rdvs_users.count} participants"
+            = "#{rdv.rdv_collectif_users_count} participants"
 
       .col-md-6
         .d-flex.card-text.mb-2
