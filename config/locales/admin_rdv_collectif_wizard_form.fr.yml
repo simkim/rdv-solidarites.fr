@@ -1,0 +1,20 @@
+fr:
+  admin:
+    rdv_collectif_wizard_steps:
+      page_title: Nouveau RDV Collectif
+      step1:
+        step_title: 1. Motif
+      step2:
+        page_title: Nouveau RDV pour le %{starts_at}
+        step_title: 3. Agent(s), horaires & lieu
+      step3:
+        page_title: Nouveau RDV pour le %{starts_at}
+        step_title: 2. Usagers
+      step4:
+        page_title: Nouveau RDV pour le %{starts_at}
+        step_title: 4. Notifications
+
+  admin_rdv_wizard_form:
+    step4:
+      responsible_will_be_notified: L'usager responsable %{responsible} sera notifié
+      no_notifications: 🔴 Aucune notification ne sera envoyée

@@ -197,6 +197,9 @@ Rails.application.routes.draw do
         resource :rdv_wizard_step, only: [:new] do
           get :create
         end
+        resource :rdv_collectif_wizard_step, only: [:new] do
+          get :create
+        end
         devise_for :agents, controllers: { invitations: "admin/invitations_devise" }, only: :invitations
         get "support", to: "static_pages#support"
       end
