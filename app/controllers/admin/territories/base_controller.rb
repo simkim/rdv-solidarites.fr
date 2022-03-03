@@ -25,6 +25,5 @@ class Admin::Territories::BaseController < ApplicationController
 
   def set_territory
     @territory = Territory.find(params[:territory_id])
-    authorize_admin(@territory, :update?)
   end
 end

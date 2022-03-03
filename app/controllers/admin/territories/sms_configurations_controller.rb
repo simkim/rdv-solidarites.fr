@@ -3,11 +3,16 @@
 class Admin::Territories::SmsConfigurationsController < Admin::Territories::BaseController
   before_action :check_allowed_departement, only: %i[update edit]
 
-  def show; end
+  def show
+    authorize_admin(current_territory)
+  end
 
-  def edit; end
+  def edit
+    authorize_admin(current_territory)
+  end
 
   def update
+    authorize_admin(current_territory)
     current_territory.update(sms_configuration_params)
     redirect_to action: :show
   end
