@@ -5,6 +5,11 @@ class Admin::Territories::BaseController < ApplicationController
 
   layout "application_configuration"
 
+  # rubocop:disable Rails/LexicallyScopedActionFilter
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+  # rubocop:enable Rails/LexicallyScopedActionFilter
+
   before_action :set_territory
 
   def current_territory
@@ -20,5 +25,6 @@ class Admin::Territories::BaseController < ApplicationController
 
   def set_territory
     @territory = Territory.find(params[:territory_id])
+    authorize_admin(@territory, :update?)
   end
 end
