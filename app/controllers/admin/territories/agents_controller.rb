@@ -29,10 +29,12 @@ class Admin::Territories::AgentsController < Admin::Territories::BaseController
 
   def edit
     @agent = Agent.find(params[:id])
+    authorize_admin(@agent)
   end
 
   def update
     @agent = Agent.find(params[:id])
+    authorize_admin(@agent)
     if @agent.update(agent_params)
       redirect_to admin_territory_agents_path(current_territory)
     else

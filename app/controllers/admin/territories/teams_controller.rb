@@ -43,7 +43,7 @@ class Admin::Territories::TeamsController < Admin::Territories::BaseController
   end
 
   def search
-    teams = TeamPolicy::Scope.new(current_territory, Team).resolve.limit(10)
+    teams = policy_scope_admin(Team).limit(10)
     @teams = search_params[:term].present? ? teams.search_by_text(search_params[:term]) : teams.order(:name)
   end
 
