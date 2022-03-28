@@ -10,14 +10,14 @@
       lieu_attributes: @rdv.nested_lieu_attributes
 
     = f.input :service_id, \
-      collection: @services.ordered_by_name, \
+      collection_with_single_option_preselect(@services.ordered_by_name).merge( \
       input_html: { \
         class: "select2-input js-service-filter", \
         data: { \
           placeholder: "Sélectionnez un service pour filtrer les motifs", \
           "select-options": { disableSearch: true } \
         } \
-      }
+      })
     = f.input :motif_id, \
       required: true, \
       include_blank: true, \

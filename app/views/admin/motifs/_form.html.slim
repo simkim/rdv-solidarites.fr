@@ -7,7 +7,7 @@
       h5.card-title Configuration générale
       .form-row
         .col-md-6
-          = f.association :service, collection: @available_services
+          = f.association :service, collection_with_single_option_preselect(@available_services)
         .col-md-6
           = f.input :name
       .form-row
