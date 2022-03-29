@@ -101,6 +101,10 @@ module ApplicationHelper
   # When used with simple form, this helper will preselect the only element of a collection of only one element
   # If there are multiple elements, there is no preselection
   def collection_with_single_option_preselect(collection)
-    { collection: collection, selected: collection.count == 1 ? 1 : nil }.compact
+    if collection.count == 1
+      { collection: collection, selected: 1 }
+    else
+      { collection: collection }
+    end
   end
 end
