@@ -35,7 +35,7 @@ class Admin::Creneaux::AgentSearchesController < AgentAuthController
     if @form.motif.individuel?
       SearchCreneauxForAgentsService.perform_with(@form)
     else
-      SearchRdvCollectifForAgentsService.perform_with(@form)
+      SearchRdvCollectifForAgentsService.search_with(@form)
     end
   end
 end
