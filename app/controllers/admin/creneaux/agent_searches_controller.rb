@@ -7,7 +7,7 @@ class Admin::Creneaux::AgentSearchesController < AgentAuthController
     @form = helpers.build_agent_creneaux_search_form(current_organisation, params)
     @search_results = search_results
 
-    if @search_results&.count == 1 && @form.motif.individuel?
+    if @search_results&.count == 1
       skip_policy_scope # TODO: improve pundit checks for creneaux
 
       redirect_to admin_organisation_slots_path(current_organisation,
@@ -35,7 +35,7 @@ class Admin::Creneaux::AgentSearchesController < AgentAuthController
     if @form.motif.individuel?
       SearchCreneauxForAgentsService.perform_with(@form)
     else
-      SearchRdvCollectifForAgentsService.search_with(@form)
+      SearchRdvCollectifForAgentsService.new(@form).search
     end
   end
 end
