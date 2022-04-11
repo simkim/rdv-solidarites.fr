@@ -641,6 +641,17 @@ Rdv.create(
     users_count: 1,
     user_ids: []
   )
+
+  Rdv.create(
+    starts_at: Time.zone.today + 2.days + 16.hours + i.weeks,
+    duration_in_min: 60,
+    motif_id: motif_org_paris_nord_pmi_collectif.id,
+    lieu: lieu_org_paris_nord_bolivar,
+    organisation_id: org_paris_nord.id,
+    agent_ids: [agent_org_paris_nord_social_polo.id],
+    users_count: 1,
+    user_ids: []
+  )
 end
 
 # Insert a lot of rdvs in the past 2 years
