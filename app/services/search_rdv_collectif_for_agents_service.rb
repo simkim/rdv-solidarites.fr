@@ -5,7 +5,7 @@ class SearchRdvCollectifForAgentsService
     @form = agent_creneaux_search_form
   end
 
-  def search
+  def lieu_search
     lieux.map do |lieu|
       OpenStruct.new(lieu: lieu, next_availability: rdvs.where(lieu: lieu).first.starts_at, creneaux: rdvs.where(lieu: lieu))
     end
@@ -21,9 +21,7 @@ class SearchRdvCollectifForAgentsService
   private
 
   def lieux
-    lieux = @form.organisation.lieux
-
-    lieux.joins(:rdvs).merge(rdvs_scope).distinct("lieux.id")
+    @form.organisation.lieux.joins(:rdvs).merge(rdvs_scope).distinct
   end
 
   def rdvs_scope
