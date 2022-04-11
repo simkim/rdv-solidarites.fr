@@ -78,12 +78,8 @@
     - if @search_results&.any?
       .container
         h3.font-weight-bold Résultats de votre recherche
-        - if @form.motif.individuel?
-          p.font-weight-bold= t(".available_places_with_slots", count: @search_results.length)
-          - @search_results.each do |search_result|
-            = render "lieu_search_results", search_result: search_result
-        - else
-          - @search_results.each do |search_result|
-            = render "admin/rdvs_collectifs/rdv", rdv: search_result
+        p.font-weight-bold= t(".available_places_with_slots", count: @search_results.length)
+        - @search_results.each do |search_result|
+          = render "lieu_search_results", search_result: search_result
     - elsif @form.motif.present?
       = t(".no_slot_available", motif_name: @form.motif.name)
