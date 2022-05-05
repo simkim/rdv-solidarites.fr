@@ -14,12 +14,12 @@ class MotifsPlageOuverture < ApplicationRecord
 end
 
 ActiveRecord::Base.transaction do
-  agent_emails_by_structure.each do |agent_emails|
+  agent_emails_by_structure.each.with_index do |agent_emails, i|
     puts "Migration for #{agent_emails}"
     agent_ids = Agent.where(email: agent_emails).pluck(:id)
     new_organisation = Organisation.create!(
       territory_id: 31,
-      name: "La Poste"
+      name: "La Poste #{i}"
     )
     agent_ids.each do |agent_id|
       AgentRole.create!(agent_id: agent_id, organisation_id: new_organisation.id, level: :admin)
