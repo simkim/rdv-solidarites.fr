@@ -3,23 +3,27 @@
 # rails runner scripts/migrate_cnfs_to_different_organisations.rb
 # rubocop:disable Rails/SkipsModelValidations
 
-old_organisation = Organisation.find(340)
+old_organisation = Organisation.find(609)
 
-agent_ids_by_organisation_id = {
-  347 => [5975], # Médiathèque Jean Carmin
-  348 => [5983], # La Bâtie-Neuve
-  349 => [5976, 5977, 5978], # Grand Cognac
-  350 => [5982], # Espace de la porte St Jacques, Troyes
-  351 => [5974], # France Services Thenon
-  352 => [5981] # Tremblay-en-France
-}
+agent_emails = [
+  # These are arrays of emails of agents that are in the same organisation, for example:
+  # ["collegue1@conseiller-numerique.fr", "collegue2@conseiller-numerique.fr"],
+]
 
 class MotifsPlageOuverture < ApplicationRecord
 end
 
 ActiveRecord::Base.transaction do
-  agent_ids_by_organisation_id.each do |organisation_id, agent_ids|
-    new_organisation = Organisation.find(organisation_id)
+  agent_emails_by_organisation_id.each do |agent_emails|
+    puts "Migration for #{agent_emails}"
+    agent_ids = Agent.where(email: agent_emails).pluck(:id)
+    new_organisation = Organisation.create!(
+      territory_id: 31,
+      name: "La Poste"
+    )
+    agent_ids.each do |agent_id|
+      AgentRole.create!(agent_id: agent_id, organisation_id: new_organisation.id, level: :admin)
+    end
 
     # migrer les plages d'ouverture
     plage_ouvertures_for_organisation = PlageOuverture.where(agent_id: agent_ids)
@@ -49,10 +53,12 @@ ActiveRecord::Base.transaction do
     User.joins(rdvs_users: { rdv: :agents_rdvs }).where(agents_rdvs: { agent_id: agent_ids }).find_each do |user|
       user.add_organisation(new_organisation)
     end
-  end
 
-  # Des lieux supplémentaires ont été créés pour le grand cognac
-  Lieu.where("address LIKE '%16, Charente, Nouvelle-Aquitaine'").where(organisation: old_organisation).update_all(organisation_id: 349)
+    agent_ids.each do |agent_id|
+      AgentRole.find_by(organisation_id: old_organisation.id, agent_id: agent_id).delete
+    end
+    puts "done !"
+  end
 end
 
 # rubocop:enable Rails/SkipsModelValidations
