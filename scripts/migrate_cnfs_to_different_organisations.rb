@@ -5,7 +5,7 @@
 
 old_organisation = Organisation.find(609)
 
-agent_emails = [
+agent_emails_by_structure = [
   # These are arrays of emails of agents that are in the same organisation, for example:
   # ["collegue1@conseiller-numerique.fr", "collegue2@conseiller-numerique.fr"],
 ]
@@ -14,7 +14,7 @@ class MotifsPlageOuverture < ApplicationRecord
 end
 
 ActiveRecord::Base.transaction do
-  agent_emails.each do |agent_emails|
+  agent_emails_by_structure.each do |agent_emails|
     puts "Migration for #{agent_emails}"
     agent_ids = Agent.where(email: agent_emails).pluck(:id)
     new_organisation = Organisation.create!(
