@@ -14,7 +14,7 @@ class MotifsPlageOuverture < ApplicationRecord
 end
 
 ActiveRecord::Base.transaction do
-  agent_emails_by_organisation_id.each do |agent_emails|
+  agent_emails.each do |agent_emails|
     puts "Migration for #{agent_emails}"
     agent_ids = Agent.where(email: agent_emails).pluck(:id)
     new_organisation = Organisation.create!(
