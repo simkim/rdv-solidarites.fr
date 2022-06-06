@@ -249,7 +249,7 @@ Rails.application.routes.draw do
   end
 
   ##
-
+  get '.well-known/acme-challenge/:challenge' => 'acme_plugin/application#index'
   get "accueil_mds" => "welcome#welcome_agent"
   post "/" => "welcome#search"
   get "departement/:departement", to: "welcome#welcome_departement", as: "welcome_departement"
