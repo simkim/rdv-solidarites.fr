@@ -179,4 +179,41 @@ describe RdvUpdater, type: :service do
       end
     end
   end
+
+  describe "#notify!" do
+    it "calls lieu_updated_notifier with lieu changes" do
+      author = create(:agent)
+      lieu = create(:lieu, availability: "enabled")
+      autre_lieu = create(:lieu, availability: "enabled")
+      rdv = create(:rdv, lieu: lieu)
+      rdv.update(lieu: autre_lieu)
+      expect(Notifiers::RdvLieuUpdated).to receive(:perform_with)
+      described_class.notify!(author, rdv, [])
+    end
+  end
+
+  describe "#lieu_change?" do
+    it "returns true when lieu changes to lieu" do
+      lieu = create(:lieu, availability: "enabled")
+      autre_lieu = create(:lieu, availability: "enabled")
+      rdv = create(:rdv, lieu: lieu)
+      rdv.update(lieu: autre_lieu)
+      expect(described_class).to be_lieu_change(rdv)
+    end
+
+    it "returns true when lieu changes to single_use lieu" do
+      lieu = create(:lieu, availability: "enabled")
+      autre_lieu = create(:lieu, availability: "single_use")
+      rdv = create(:rdv, lieu: lieu)
+      rdv.update(lieu: autre_lieu)
+      expect(described_class).to be_lieu_change(rdv)
+    end
+
+    it "returns false when lieu doesnt change" do
+      lieu = create(:lieu, availability: "enabled")
+      rdv = create(:rdv, lieu: lieu)
+      rdv.update(context: "context")
+      expect(described_class).not_to be_lieu_change(rdv)
+    end
+  end
 end

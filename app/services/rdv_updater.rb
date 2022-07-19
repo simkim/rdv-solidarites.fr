@@ -27,8 +27,6 @@ module RdvUpdater
         rdv.status == "unknown"
     end
 
-    private
-
     def notify!(author, rdv, previous_participant_ids)
       rdv_users_tokens_by_user_id = {}
       if rdv_cancelled?(rdv)
@@ -48,8 +46,18 @@ module RdvUpdater
         rdv_users_tokens_by_user_id = Notifiers::RdvCollectifParticipations.perform_with(rdv, author, previous_participant_ids)
       end
 
+      if lieu_change?(rdv)
+        rdv_users_tokens_by_user_id = Notifiers::RdvLieuUpdated.perform_with(rdv, author)
+      end
+
       rdv_users_tokens_by_user_id
     end
+
+    def lieu_change?(rdv)
+      rdv.previous_changes["lieu_id"].present?
+    end
+
+    private
 
     def rdv_cancelled?(rdv)
       rdv.previous_changes["status"]&.last.in? %w[excused revoked noshow]

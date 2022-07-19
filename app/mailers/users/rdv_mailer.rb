@@ -30,6 +30,15 @@ class Users::RdvMailer < ApplicationMailer
     save_receipt(subject)
   end
 
+  def rdv_lieu_updated(old_lieu_id)
+    @old_lieu_id = old_lieu_id
+
+    self.ics_payload = @rdv.payload(:update, @user)
+    subject = t("users.rdv_mailer.rdv_lieu_updated.title")
+    mail(subject: subject)
+    save_receipt(subject)
+  end
+
   def rdv_upcoming_reminder
     self.ics_payload = @rdv.payload(nil, @user)
     subject = t("users.rdv_mailer.rdv_upcoming_reminder.title", date: l(@rdv.starts_at, format: :human))

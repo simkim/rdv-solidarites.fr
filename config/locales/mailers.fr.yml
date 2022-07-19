@@ -61,6 +61,8 @@ fr:
         title: RDV confirmé le %{date}
       rdv_date_updated:
         title: RDV %{date} reporté à plus tard
+      rdv_lieu_updated:
+        title: Votre RDV a changé de lieu
       rdv_upcoming_reminder:
         title: "[Rappel] RDV le %{date}"
       rdv_cancelled:
