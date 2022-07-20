@@ -46,7 +46,7 @@
             span>= link_to "Ajouter un RDV dans votre agenda", admin_organisation_agent_agenda_path(@organisation, current_agent.id)
 
         h5.mb-2 Synchroniser votre agenda externe
-        p Si vous utilisez déjà un agenda comme Outlook ou Google Calendar, vous pouvez synchroniser RDV Solidarité avec votre agenda externe, pour que vos rendez-vous y soient visibles aussi.
+        p Si vous utilisez déjà un agenda comme Outlook ou Google Calendar, vous pouvez exporter votre agenda RDV Solidarité vers votre agenda externe, pour que vos rendez-vous y soient visibles aussi.
         ul.mb-4.list-unstyled
           li.mb-2
             span>= setup_checklist_item(current_agent.calendar_uid.present?)
